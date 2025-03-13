@@ -13,8 +13,12 @@ st.set_page_config(page_title="ERP分析工具", layout="wide")
 # 加载数据
 @st.cache_data
 def load_data():
-    loader = ERPDataLoader()
-    return loader.load_latest_data()
+    try:
+        loader = ERPDataLoader()
+        return loader.load_latest_data()
+    except Exception as e:
+        st.error(f"数据加载失败：{str(e)}")
+        return None
 
 # 确保数据被加载并存储到session state
 if "data" not in st.session_state:
